@@ -28,12 +28,12 @@ const useNewsQuery = () => {
 
       const data = await response.json();
 
-      const articlesArray = data.articles || [];
+      const newsDataList = data.articles || [];
 
       setNewsData((prevData) => ({
         ...prevData,
         [category]: {
-          articles: [...articlesArray],
+          articles: [...newsDataList],
         },
       }));
     } catch (err) {
@@ -50,13 +50,10 @@ const useNewsQuery = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (selectedCategory) {
-        // Log selectedCategory to check its value
         console.log("Selected Category in useEffect:", selectedCategory);
 
-        // Fetch data only for the selected category
         await fetchNewsData(selectedCategory);
       } else {
-        // Fetch data for all categories
         for (const category of categories) {
           await fetchNewsData(category);
         }
@@ -64,7 +61,7 @@ const useNewsQuery = () => {
     };
 
     fetchData();
-  }, []);
+  }, [selectedCategory]);
 
   const categories = [
     "general",

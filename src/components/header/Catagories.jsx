@@ -6,6 +6,7 @@ function Catagories() {
 
   const handleClick = (e, category) => {
     e.preventDefault();
+    console.log(category);
     setSelectedCategory(category);
   };
 

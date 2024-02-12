@@ -4,7 +4,7 @@ import NewsLeft from "./NewsLeft";
 import NewsRight from "./NewsRight";
 
 function NewsFeeder() {
-  const { newsData, categories, selectedCategory } = useNewsContext();
+  const { newsData, categories, selectedCategory, loading } = useNewsContext();
 
   const renderNewsComponents = (category) => (
     <React.Fragment key={category}>
@@ -15,11 +15,15 @@ function NewsFeeder() {
 
   return (
     <main className="my-10 lg:my-14">
-      <div className="container mx-auto grid grid-cols-12 gap-8">
-        {selectedCategory
-          ? renderNewsComponents(selectedCategory)
-          : categories.map(renderNewsComponents)}
-      </div>
+      {!loading.state ? (
+        <div className="container mx-auto grid grid-cols-12 gap-8">
+          {selectedCategory
+            ? renderNewsComponents(selectedCategory)
+            : categories.map(renderNewsComponents)}
+        </div>
+      ) : (
+        <p className="text-center text-red-500">{loading.message}</p>
+      )}
     </main>
   );
 }
