@@ -40,12 +40,24 @@ const useSearch = (initialQuery = "") => {
     fetchSearchResults();
   }, [searchQuery]);
 
+  const filterBySearchQuery = (article, searchQuery) => {
+    const titleIncludesQuery = article.title
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const descriptionIncludesQuery =
+      article.description &&
+      article.description.toLowerCase().includes(searchQuery.toLowerCase());
+
+    return titleIncludesQuery || descriptionIncludesQuery;
+  };
+
   return {
     searchQuery,
     setSearchQuery,
     searchResults,
     loading,
     error,
+    filterBySearchQuery,
   };
 };
 

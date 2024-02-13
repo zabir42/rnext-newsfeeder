@@ -2,8 +2,14 @@ import { SearchContext } from "../context";
 import { useSearch } from "../hooks";
 
 const SearchProvider = ({ children }) => {
-  const { searchQuery, setSearchQuery, searchResults, loading, error } =
-    useSearch();
+  const {
+    searchQuery,
+    setSearchQuery,
+    searchResults,
+    loading,
+    error,
+    filterBySearchQuery,
+  } = useSearch();
   return (
     <SearchContext.Provider
       value={{
@@ -12,6 +18,7 @@ const SearchProvider = ({ children }) => {
         searchResults,
         loading,
         error,
+        filterBySearchQuery,
       }}
     >
       {children}

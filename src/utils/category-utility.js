@@ -1,4 +1,3 @@
-// Updated utility function
 const articlesByCategoryName = (categories, newsData) => {
   if (Array.isArray(categories)) {
     return categories.map((category) => newsData[category]?.articles);

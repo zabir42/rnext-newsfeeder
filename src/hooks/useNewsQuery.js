@@ -73,8 +73,9 @@ const useNewsQuery = () => {
     "technology",
   ];
 
-  const getCategory = (category) =>
-    articlesByCategoryName([category], newsData)[0] || [];
+  const getArticlesByCategory = (category) =>
+  articlesByCategoryName([category], newsData)[0] || [];
+
 
   return {
     newsData,
@@ -83,7 +84,7 @@ const useNewsQuery = () => {
     categories,
     selectedCategory,
     setSelectedCategory,
-    getCategory,
+    getArticlesByCategory,
   };
 };
 
