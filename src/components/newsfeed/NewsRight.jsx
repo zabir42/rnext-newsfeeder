@@ -1,3 +1,5 @@
+import { formatDate } from "../../utils/date-utility";
+
 function NewsRight({ articles }) {
   return (
     <div className="col-span-12 self-start xl:col-span-4">
@@ -22,7 +24,7 @@ function NewsRight({ articles }) {
                   {article.description}
                 </p>
                 <p className="mt-5 text-base text-[#94908C]">
-                  {article.publishedAt}
+                  {formatDate(article.publishedAt)}
                 </p>
               </div>
             </div>

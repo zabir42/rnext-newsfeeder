@@ -1,28 +1,35 @@
-import React from "react";
-import { useNewsContext } from "../../context";
-import NewsLeft from "./NewsLeft";
-import NewsRight from "./NewsRight";
+import { useNewsContext, useSearchContext } from "../../context";
+import NewsContainer from "./NewsContainer";
 
 function NewsFeeder() {
-  const { newsData, categories, selectedCategory, loading } = useNewsContext();
+  const { categories, selectedCategory, loading, getCategory } =
+    useNewsContext();
+  const { searchQuery } = useSearchContext();
 
-  const renderNewsComponents = (category) => (
-    <React.Fragment key={category}>
-      <NewsLeft articles={newsData[category]?.articles || []} />
-      <NewsRight articles={newsData[category]?.articles || []} />
-    </React.Fragment>
-  );
+  const filteredArticles = (selectedCategory ? [selectedCategory] : categories)
+    .flatMap((category) => getCategory(category))
+    .filter((article) =>
+      article.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
   return (
     <main className="my-10 lg:my-14">
+      <div className="container mx-auto mb-4">
+        {searchQuery && filteredArticles.length === 0 && (
+          <p className="text-lg font-semibold text-center text-red-500">
+            Search results not found for: {searchQuery}
+          </p>
+        )}
+      </div>
+
       {!loading.state ? (
         <div className="container mx-auto grid grid-cols-12 gap-8">
-          {selectedCategory
-            ? renderNewsComponents(selectedCategory)
-            : categories.map(renderNewsComponents)}
+          <NewsContainer articles={filteredArticles} />
         </div>
       ) : (
-        <p className="text-center text-red-500">{loading.message}</p>
+        <div className="text-center text-blue-500">
+          <p>{loading.message}</p>
+        </div>
       )}
     </main>
   );

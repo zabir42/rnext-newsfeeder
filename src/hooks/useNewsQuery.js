@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import articlesByCategoryName from "../utils/category-utility";
 
 const useNewsQuery = () => {
   const [newsData, setNewsData] = useState({});
@@ -49,9 +50,8 @@ const useNewsQuery = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setError(null);
       if (selectedCategory) {
-        console.log("Selected Category in useEffect:", selectedCategory);
-
         await fetchNewsData(selectedCategory);
       } else {
         for (const category of categories) {
@@ -73,6 +73,9 @@ const useNewsQuery = () => {
     "technology",
   ];
 
+  const getCategory = (category) =>
+    articlesByCategoryName([category], newsData)[0] || [];
+
   return {
     newsData,
     loading,
@@ -80,6 +83,7 @@ const useNewsQuery = () => {
     categories,
     selectedCategory,
     setSelectedCategory,
+    getCategory,
   };
 };
 

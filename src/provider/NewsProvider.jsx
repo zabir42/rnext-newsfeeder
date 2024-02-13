@@ -7,9 +7,10 @@ const NewsProvider = ({ children }) => {
     categories,
     error,
     loading,
-    articleByCategoryName,
     selectedCategory,
     setSelectedCategory,
+    getCategory
+
   } = useNewsQuery();
   return (
     <NewsContext.Provider
@@ -18,9 +19,10 @@ const NewsProvider = ({ children }) => {
         categories,
         error,
         loading,
-        articleByCategoryName,
         selectedCategory,
         setSelectedCategory,
+        getCategory
+      
       }}
     >
       {children}
