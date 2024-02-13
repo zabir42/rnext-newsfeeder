@@ -1,4 +1,5 @@
 import { useNewsContext, useSearchContext } from "../../context";
+import { getFilteredArticles } from "../../utils/filtered-utility";
 import NewsContainer from "./NewsContainer";
 
 function NewsFeeder() {
@@ -6,11 +7,13 @@ function NewsFeeder() {
     useNewsContext();
   const { searchQuery } = useSearchContext();
 
-  const filteredArticles = (selectedCategory ? [selectedCategory] : categories)
-    .flatMap((category) => getCategory(category))
-    .filter((article) =>
-      article.title.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+  const filteredArticles = getFilteredArticles(
+    selectedCategory,
+    categories,
+    getCategory
+  ).filter((article) =>
+    article.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <main className="my-10 lg:my-14">
