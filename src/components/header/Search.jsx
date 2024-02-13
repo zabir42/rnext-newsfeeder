@@ -37,6 +37,7 @@ function Search() {
         onClick={handleSearchInput}
         src="./assets/icons/search.svg"
         alt="Search"
+        className="cursor-pointer"
       />
     </div>
   );

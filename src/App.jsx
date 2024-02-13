@@ -6,12 +6,12 @@ import { NewsProvider, SearchProvider } from "./provider";
 export default function App() {
   return (
     <>
-      <NewsProvider>
-        <SearchProvider>
+      <SearchProvider>
+        <NewsProvider>
           <Navbar />
           <NewsFeeder />
-        </SearchProvider>
-      </NewsProvider>
+        </NewsProvider>
+      </SearchProvider>
       <Footer />
     </>
   );

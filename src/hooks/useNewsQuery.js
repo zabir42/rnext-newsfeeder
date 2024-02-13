@@ -74,8 +74,7 @@ const useNewsQuery = () => {
   ];
 
   const getArticlesByCategory = (category) =>
-  articlesByCategoryName([category], newsData)[0] || [];
-
+    articlesByCategoryName([category], newsData)[0] || [];
 
   return {
     newsData,
