@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchContext } from "../../context";
+import useDebounce from "../../hooks/useDebounce"; // Import useDebounce hook
 
 function Search() {
   const [showInput, setShowInput] = useState(false);
@@ -10,8 +11,13 @@ function Search() {
     console.log("click");
   };
 
+  const doSearch = useDebounce((value) => {
+    setSearchQuery(value);
+    console.log("Debounced Search:", value);
+  }, 500);
+
   useEffect(() => {
-    console.log(searchQuery);
+    console.log("Actual Search:", searchQuery);
   }, [searchQuery]);
 
   return (
@@ -22,10 +28,14 @@ function Search() {
           className="border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500"
           placeholder="Search..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => doSearch(e.target.value)}
         />
       )}
-      <img onClick={handleSearchInput} src="./assets/icons/search.svg" />
+      <img
+        onClick={handleSearchInput}
+        src="./assets/icons/search.svg"
+        alt="Search"
+      />
     </div>
   );
 }

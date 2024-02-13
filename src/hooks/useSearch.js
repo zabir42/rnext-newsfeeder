@@ -28,7 +28,6 @@ const useSearch = (initialQuery = "") => {
 
           setSearchResults(data.articles || []);
         } else {
-          // If the search query is empty, reset the search results
           setSearchResults([]);
         }
       } catch (err) {
