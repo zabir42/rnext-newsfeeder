@@ -1,6 +1,14 @@
 import React from "react";
 
-function Date() {
+const DateComponent = () => {
+  const currentDate = new Date();
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  const formattedDate = currentDate.toLocaleDateString("en-US", options);
   return (
     <div className="flex items-center space-x-4">
       <svg
@@ -53,9 +61,9 @@ function Date() {
           strokeLinejoin="round"
         />
       </svg>
-      <span>Thursday, February 25, 2021</span>
+      <span>{formattedDate}</span>
     </div>
   );
-}
+};
 
-export default Date;
+export default DateComponent;
