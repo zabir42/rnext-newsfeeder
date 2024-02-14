@@ -12,24 +12,20 @@ const useSearch = (initialQuery = "") => {
         setLoading(true);
         setError(null);
 
-        if (searchQuery.trim() !== "") {
-          const response = await fetch(
-            `http://localhost:8000/v2/search?q=${encodeURIComponent(
-              searchQuery
-            )}`
-          );
-
-          if (!response.ok) {
-            const errorMessage = `Fetching search results failed: ${response.status}`;
-            throw new Error(errorMessage);
-          }
-
-          const data = await response.json();
-
-          setSearchResults(data.articles || []);
-        } else {
+        if (searchQuery.trim() === "") {
           setSearchResults([]);
+          return;
         }
+
+        const searchApiUrl = import.meta.env.VITE_SEARCH_API;
+        const response = await fetch(`${searchApiUrl}/search?q=${searchQuery}`);
+
+        if (!response.ok) {
+          throw new Error(`Fetching search results failed: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setSearchResults(data.articles || []);
       } catch (err) {
         setError(err);
       } finally {
@@ -40,13 +36,13 @@ const useSearch = (initialQuery = "") => {
     fetchSearchResults();
   }, [searchQuery]);
 
-  const filterBySearchQuery = (article, searchQuery) => {
+  const filterBySearchQuery = (article, query) => {
     const titleIncludesQuery = article.title
       .toLowerCase()
-      .includes(searchQuery.toLowerCase());
+      .includes(query.toLowerCase());
     const descriptionIncludesQuery =
       article.description &&
-      article.description.toLowerCase().includes(searchQuery.toLowerCase());
+      article.description.toLowerCase().includes(query.toLowerCase());
 
     return titleIncludesQuery || descriptionIncludesQuery;
   };

@@ -3,75 +3,55 @@ import articlesByCategoryName from "../utils/category-utility";
 
 const useNewsQuery = () => {
   const [newsData, setNewsData] = useState({});
-  const [loading, setLoading] = useState({
-    state: false,
-    message: "",
-  });
+  const [loading, setLoading] = useState({ state: false, message: "" });
   const [error, setError] = useState(null);
+  const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
 
   const fetchNewsData = async (category) => {
-    try {
-      setLoading({
-        ...loading,
-        state: true,
-        message: `Fetching news data for ${category}...`,
-      });
+    setLoading({
+      state: true,
+      message: `Fetching news data from ${category}...`,
+    });
 
+    try {
+      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
       const response = await fetch(
-        `http://localhost:8000/v2/top-headlines?category=${category}`
+        `${apiBaseUrl}/top-headlines?category=${category}`
       );
 
-      if (!response.ok) {
-        const errorMessage = `Fetching news data failed: ${response.status}`;
-        throw new Error(errorMessage);
-      }
+      if (!response.ok)
+        throw new Error(`Fetching news data failed: ${response.status}`);
 
       const data = await response.json();
-
-      const newsDataList = data.articles || [];
-
       setNewsData((prevData) => ({
         ...prevData,
-        [category]: {
-          articles: [...newsDataList],
-        },
+        [category]: { articles: data.articles || [] },
       }));
     } catch (err) {
       setError(err);
     } finally {
-      setLoading({
-        ...loading,
-        state: false,
-        message: "",
-      });
+      setLoading({ state: false, message: "" });
     }
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      setError(null);
-      if (selectedCategory) {
-        await fetchNewsData(selectedCategory);
-      } else {
-        for (const category of categories) {
-          await fetchNewsData(category);
-        }
-      }
-    };
+    setError(null);
+    const fetchCategories = selectedCategory ? [selectedCategory] : categories;
+    Promise.all(fetchCategories.map((category) => fetchNewsData(category)));
+  }, [selectedCategory, categories]);
 
-    fetchData();
-  }, [selectedCategory]);
-
-  const categories = [
-    "general",
-    "business",
-    "entertainment",
-    "health",
-    "science",
-    "sports",
-    "technology",
-  ];
+  useEffect(() => {
+    setCategories([
+      "general",
+      "business",
+      "entertainment",
+      "health",
+      "science",
+      "sports",
+      "technology",
+    ]);
+  }, []);
 
   const getArticlesByCategory = (category) =>
     articlesByCategoryName([category], newsData)[0] || [];

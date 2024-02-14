@@ -11,6 +11,7 @@ const NewsProvider = ({ children }) => {
     setSelectedCategory,
     getArticlesByCategory,
   } = useNewsQuery();
+
   return (
     <NewsContext.Provider
       value={{
