@@ -12,11 +12,6 @@ const useSearch = (initialQuery = "") => {
         setLoading(true);
         setError(null);
 
-        if (searchQuery.trim() === "") {
-          setSearchResults([]);
-          return;
-        }
-
         const searchApiUrl = import.meta.env.VITE_SEARCH_API;
         const response = await fetch(`${searchApiUrl}/search?q=${searchQuery}`);
 
