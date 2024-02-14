@@ -35,10 +35,17 @@ const useNewsQuery = () => {
     }
   };
 
-  useEffect(() => {
+  const fetchCategoriesData = async () => {
     setError(null);
     const fetchCategories = selectedCategory ? [selectedCategory] : categories;
-    Promise.all(fetchCategories.map((category) => fetchNewsData(category)));
+
+    for (const category of fetchCategories) {
+      await fetchNewsData(category);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategoriesData();
   }, [selectedCategory, categories]);
 
   useEffect(() => {

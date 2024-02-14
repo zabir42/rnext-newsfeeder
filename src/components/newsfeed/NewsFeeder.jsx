@@ -9,7 +9,6 @@ function NewsFeeder() {
     loading,
     getArticlesByCategory,
     error,
-    newsData
   } = useNewsContext();
   const { searchQuery, filterBySearchQuery } = useSearchContext();
 
@@ -18,8 +17,6 @@ function NewsFeeder() {
     categories,
     getArticlesByCategory
   ).filter((article) => filterBySearchQuery(article, searchQuery));
-
-  console.log(newsData);
 
   return (
     <main className="my-10 lg:my-14 container mx-auto mb-4">
