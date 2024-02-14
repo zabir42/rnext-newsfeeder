@@ -9,8 +9,22 @@ const NewsProvider = ({ children }) => {
     loading,
     selectedCategory,
     setSelectedCategory,
-    getArticlesByCategory,
   } = useNewsQuery();
+
+  // filtered function
+  const getArticlesByCategory = () => {
+    const getAllData = Object.values(newsData).flatMap(
+      (categoryData) => categoryData.articles
+    );
+    const getSelectedData = newsData[selectedCategory]?.articles;
+
+    return getSelectedData || getAllData || [];
+  };
+
+  // Compute articles based on selectedCategory and categories
+  const articles = selectedCategory
+    ? getArticlesByCategory()
+    : categories.flatMap(getArticlesByCategory);
 
   return (
     <NewsContext.Provider
@@ -21,7 +35,7 @@ const NewsProvider = ({ children }) => {
         loading,
         selectedCategory,
         setSelectedCategory,
-        getArticlesByCategory,
+        articles,
       }}
     >
       {children}

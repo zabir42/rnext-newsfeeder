@@ -83,15 +83,6 @@ const useNewsQuery = () => {
     ]);
   }, []);
 
-  const getArticlesByCategory = () => {
-    const getAllData = Object.values(newsData).flatMap(
-      (categoryData) => categoryData.articles
-    );
-    const getSelectedData = newsData[selectedCategory]?.articles;
-
-    return getSelectedData || getAllData || [];
-  };
-
   return {
     newsData,
     loading,
@@ -99,7 +90,6 @@ const useNewsQuery = () => {
     categories,
     selectedCategory,
     setSelectedCategory,
-    getArticlesByCategory,
   };
 };
 

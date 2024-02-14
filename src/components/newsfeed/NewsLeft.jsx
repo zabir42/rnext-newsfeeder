@@ -1,12 +1,21 @@
 /* eslint-disable react/prop-types */
+
 import { formatDate } from "../../utils/date-utility";
 
-function NewsLeft({ articles }) {
+const NewsLeft = ({ articles }) => {
   return (
     <div className="col-span-12 grid grid-cols-12 gap-6 self-start xl:col-span-8">
       {articles.map(
         (
-          { title, description, author, publishedAt, urlToImage, content, source },
+          {
+            title,
+            description,
+            author,
+            publishedAt,
+            urlToImage,
+            content,
+            source,
+          },
           index
         ) => (
           <div key={index} className="col-span-12 grid grid-cols-12 gap-4">
@@ -16,7 +25,9 @@ function NewsLeft({ articles }) {
                   {title}
                 </h3>
               </a>
-              <p className="text-base text-[#5C5955]">{description || content}</p>
+              <p className="text-base text-[#5C5955]">
+                {description || content}
+              </p>
               <p className="mt-5 text-base text-[#5C5955]">
                 {formatDate(publishedAt)}
               </p>
@@ -37,6 +48,6 @@ function NewsLeft({ articles }) {
       )}
     </div>
   );
-}
+};
 
 export default NewsLeft;
