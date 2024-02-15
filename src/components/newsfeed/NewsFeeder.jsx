@@ -11,6 +11,7 @@ const NewsFeeder = () => {
     filterdBySearchQuery(article, searchQuery)
   );
 
+
   return (
     <main className="my-10 lg:my-14 container mx-auto mb-4">
       {searchQuery && filteredArticles.length === 0 && (
