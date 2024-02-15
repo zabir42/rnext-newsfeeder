@@ -11,6 +11,8 @@ const NewsProvider = ({ children }) => {
     setSelectedCategory,
   } = useNewsQuery();
 
+  console.log(categories);
+
   // filtered function
   const getArticlesByCategory = () => {
     const getAllData = Object.values(newsData).flatMap(
@@ -22,9 +24,8 @@ const NewsProvider = ({ children }) => {
   };
 
   // Compute articles based on selectedCategory and categories
-  const articles = selectedCategory
-    ? getArticlesByCategory()
-    : categories.flatMap(getArticlesByCategory);
+  const articles = getArticlesByCategory()
+
 
   const contextValue = {
     newsData,
