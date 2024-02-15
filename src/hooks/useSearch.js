@@ -13,14 +13,16 @@ const useSearch = (initialQuery = "") => {
         setError(null);
 
         const searchApiUrl = import.meta.env.VITE_SEARCH_API;
-        const response = await fetch(`${searchApiUrl}/search?q=${searchQuery}`);
+        const apiUrl = `${searchApiUrl}?q=${searchQuery}`;
+
+        const response = await fetch(apiUrl);
 
         if (!response.ok) {
           throw new Error(`Fetching search results failed: ${response.status}`);
         }
 
         const data = await response.json();
-        setSearchResults(data.articles || []);
+        setSearchResults(data.result || []);
       } catch (err) {
         setError(err);
       } finally {

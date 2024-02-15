@@ -1,6 +1,7 @@
 import { SearchContext } from "../context";
 import { useSearch } from "../hooks";
 
+// eslint-disable-next-line react/prop-types
 const SearchProvider = ({ children }) => {
   const { searchQuery, setSearchQuery, searchResults, loading, error } =
     useSearch();
@@ -15,17 +16,17 @@ const SearchProvider = ({ children }) => {
 
     return titleQuery || descriptionQuery;
   };
+
+  const contextValue = {
+    searchQuery,
+    setSearchQuery,
+    searchResults,
+    loading,
+    error,
+    filterdBySearchQuery,
+  };
   return (
-    <SearchContext.Provider
-      value={{
-        searchQuery,
-        setSearchQuery,
-        searchResults,
-        loading,
-        error,
-        filterdBySearchQuery,
-      }}
-    >
+    <SearchContext.Provider value={contextValue}>
       {children}
     </SearchContext.Provider>
   );

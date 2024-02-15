@@ -4,7 +4,7 @@ import useDebounce from "../../hooks/useDebounce";
 
 function Search() {
   const [showInput, setShowInput] = useState(false);
-  const { searchQuery, setSearchQuery, loading, error } = useSearchContext();
+  const { searchQuery, setSearchQuery } = useSearchContext();
   const inputRef = useRef(null);
 
   const handleSearchInput = () => {
@@ -31,8 +31,6 @@ function Search() {
             value={searchQuery}
             onChange={(e) => doSearch(e.target.value)}
           />
-          {loading && <span className="text-blue-500">Loading...</span>}
-          {error && <span className="text-red-500">{error.message}</span>}
         </>
       )}
       <img

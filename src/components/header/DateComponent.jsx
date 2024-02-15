@@ -1,5 +1,3 @@
-import React from "react";
-
 const DateComponent = () => {
   const currentDate = new Date();
   const options = {

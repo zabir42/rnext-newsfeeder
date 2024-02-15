@@ -26,20 +26,18 @@ const NewsProvider = ({ children }) => {
     ? getArticlesByCategory()
     : categories.flatMap(getArticlesByCategory);
 
+  const contextValue = {
+    newsData,
+    categories,
+    error,
+    loading,
+    selectedCategory,
+    setSelectedCategory,
+    articles,
+  };
+
   return (
-    <NewsContext.Provider
-      value={{
-        newsData,
-        categories,
-        error,
-        loading,
-        selectedCategory,
-        setSelectedCategory,
-        articles,
-      }}
-    >
-      {children}
-    </NewsContext.Provider>
+    <NewsContext.Provider value={contextValue}>{children}</NewsContext.Provider>
   );
 };
 
