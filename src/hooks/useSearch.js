@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useDebounce } from "../hooks/";
 
 const useSearch = (initialQuery = "") => {
   const [searchQuery, setSearchQuery] = useState(initialQuery);
@@ -6,38 +7,34 @@ const useSearch = (initialQuery = "") => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    let timeoutId;
+  const fetchSearchResults = async () => {
+    try {
+      setLoading(true);
+      setError(null);
 
-    const fetchSearchResults = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+      const searchApiUrl = import.meta.env.VITE_SEARCH_API;
+      const apiUrl = `${searchApiUrl}?q=${searchQuery}`;
 
-        const searchApiUrl = import.meta.env.VITE_SEARCH_API;
-        const apiUrl = `${searchApiUrl}?q=${searchQuery}`;
+      const response = await fetch(apiUrl);
 
-        const response = await fetch(apiUrl);
-
-        if (!response.ok) {
-          throw new Error(`Fetching search results failed: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setSearchResults(data.result || []);
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
+      if (!response.ok) {
+        throw new Error(`Fetching search results failed: ${response.status}`);
       }
-    };
 
-    clearTimeout(timeoutId);
+      const data = await response.json();
+      setSearchResults(data.result || []);
+    } catch (err) {
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    timeoutId = setTimeout(fetchSearchResults, 1000);
+  const debouncedFetchData = useDebounce(fetchSearchResults, 1000);
 
-    return () => clearTimeout(timeoutId);
-  }, [searchQuery]);
+  useEffect(() => {
+    debouncedFetchData();
+  }, [searchQuery, debouncedFetchData]);
 
   return {
     searchQuery,
