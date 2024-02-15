@@ -7,6 +7,8 @@ const useSearch = (initialQuery = "") => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    let timeoutId;
+
     const fetchSearchResults = async () => {
       try {
         setLoading(true);
@@ -30,7 +32,11 @@ const useSearch = (initialQuery = "") => {
       }
     };
 
-    fetchSearchResults();
+    clearTimeout(timeoutId);
+
+    timeoutId = setTimeout(fetchSearchResults, 1000);
+
+    return () => clearTimeout(timeoutId);
   }, [searchQuery]);
 
   return {
@@ -39,6 +45,7 @@ const useSearch = (initialQuery = "") => {
     searchResults,
     loading,
     error,
+    setSearchResults,
   };
 };
 

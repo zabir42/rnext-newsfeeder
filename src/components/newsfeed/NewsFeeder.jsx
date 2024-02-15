@@ -7,10 +7,8 @@ const NewsFeeder = () => {
     useSearchContext();
 
   const searchArticles = searchQuery ? searchResults : articles;
-  const filteredArticles = searchArticles.filter((article) =>
-    filterdBySearchQuery(article, searchQuery)
-  );
 
+  const filteredArticles = searchArticles.filter(filterdBySearchQuery(searchQuery));
 
   return (
     <main className="my-10 lg:my-14 container mx-auto mb-4">

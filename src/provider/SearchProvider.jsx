@@ -3,10 +3,16 @@ import { useSearch } from "../hooks";
 
 // eslint-disable-next-line react/prop-types
 const SearchProvider = ({ children }) => {
-  const { searchQuery, setSearchQuery, searchResults, loading, error } =
-    useSearch();
+  const {
+    searchQuery,
+    setSearchQuery,
+    searchResults,
+    loading,
+    error,
+    setSearchResults,
+  } = useSearch();
 
-  const filterdBySearchQuery = (article, query) => {
+  const filterdBySearchQuery = (query) => (article) => {
     const titleQuery = article.title
       .toLowerCase()
       .includes(query.toLowerCase());
@@ -24,6 +30,7 @@ const SearchProvider = ({ children }) => {
     loading,
     error,
     filterdBySearchQuery,
+    setSearchResults,
   };
   return (
     <SearchContext.Provider value={contextValue}>
